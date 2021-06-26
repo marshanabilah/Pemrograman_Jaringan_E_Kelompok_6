@@ -1,0 +1,79 @@
+//No 1
+CREATE SEQUENCE boatlog_seq START WITH 1;
+
+create or replace trigger bl_trigger
+after insert or update or delete
+on boats
+for each row
+declare
+    blid integer;
+    change_log varchar2(10);
+    bid integer;
+begin
+    select boatlog_seq.nextval into blid from dual;
+    change_log := case
+            when inserting then 'insert'
+            when updating then 'update'
+            when deleting then 'delete'
+    end;
+    bid := case 
+        when deleting then :old.bid
+        when inserting then :new.bid
+        when updating then :new.bid
+    end;
+    insert into boatlog values (
+        blid-1,
+        bid,
+        sysdate,
+        change_log
+    );
+end;
+
+insert into Boats values(101,'Interlake','blue');
+insert into Boats values(102,'Interlake','red');
+insert into Boats values(103,'Clipper','green');
+insert into Boats values(104,'Marine','red');
+
+//No 2
+CREATE OR REPLACE FUNCTION golonganusia(age number) 
+RETURN varchar2 
+AS v_golonganusia varchar2(10); 
+BEGIN 
+IF(age<20) THEN 
+v_golonganusia := 'Teens'; 
+ELSIF(age>=20 and age<=60) THEN 
+v_golonganusia := 'Adult'; 
+ELSIF(age>60) THEN 
+v_golonganusia := 'Old'; 
+END IF; 
+RETURN v_golonganusia; 
+END;
+
+//No 3
+SELECT sailors.sanme AS nama, golonganusia(sailors.age) AS "Kategori" 
+FROM sailors;
+
+//No 4
+CREATE OR REPLACE PROCEDURE ke_yellow 
+IS BEGIN 
+UPDATE boats 
+SET color = 'yellow' 
+WHERE bname = 'Clipper'; 
+END; 
+select * from boats; 
+execute ke_yellow; 
+select * from boats;
+
+//No 5
+CREATE OR REPLACE PROCEDURE CHANGE_COLOR IS 
+BEGIN
+  update boats
+  set color='yellow'
+  where bname='Clipper';
+END;
+
+select * from boats;
+
+execute change_color;
+
+select * from boats;
