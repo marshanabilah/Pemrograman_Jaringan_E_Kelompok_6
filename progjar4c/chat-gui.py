@@ -8,13 +8,16 @@ import json
 from tkinter import font
 from tkinter.constants import CENTER
 from chat_cli import ChatClient
+from client_group import GROUP
 
 class GUI:
     def __init__(self) -> None:
         self.chatClient = ChatClient()
-        
+
         self.Window = tk.Tk()
         self.Window.withdraw()
+
+        self.chatGroup = GROUP(self.Window)
 
         self.loginScreen = tk.Toplevel()
 
@@ -93,7 +96,7 @@ class GUI:
                                         command = lambda: self.chat(self.chatToEntryName.get()))
         self.chatToButton.place(relx=0.65, rely=0.0)
 
-        self.chatGroupLabel = tk.Label(self.optionPage, text="Group to: ", font="Helvetica 11")
+        self.chatGroupLabel = tk.Label(self.optionPage, text="Group ID: ", font="Helvetica 11")
         self.chatGroupLabel.place(relheight=0.2, relx=0.0, rely=0.2)
 
         self.chatGroupEntry = tk.Entry(self.optionPage, font="Helvetica 12")
@@ -103,7 +106,7 @@ class GUI:
         self.chatGroupButton = tk.Button(self.optionPage, 
                                         text="to GROUP", 
                                         font="Helvetica 12 bold", 
-                                        command = lambda: self.group())
+                                        command = lambda: self.chatGroup.goAhead(self.name, self.chatGroupEntry.get()))
         self.chatGroupButton.place(relx=0.65, rely=0.25)
 
         self.inboxButton = tk.Button(self.optionPage, 
