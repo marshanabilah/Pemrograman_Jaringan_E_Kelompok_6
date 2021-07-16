@@ -65,7 +65,8 @@ class HttpServer:
 			
 	def http_get(self,object_address,headers):
 		object_address = unquote(object_address)
-		print(f"ADDRESS : {object_address}")
+		object_address = object_address.replace("+"," ")
+		print(f"ADDRESS : {object_address} => {type(object_address)}")
 		files = glob('./*.jpg') + glob('./*.jpeg') + glob('./*.png')
 		for i in range(0, len(files)):
 			files[i] = Path(files[i])

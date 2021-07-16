@@ -65,6 +65,7 @@ class HttpServer:
 			
 	def http_get(self,object_address,headers):
 		object_address = unquote(object_address)
+		object_address = object_address.replace("+"," ")
 		print(f"ADDRESS : {object_address}")
 		files = glob('./*.pdf')
 		for i in range(0, len(files)):

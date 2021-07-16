@@ -6,9 +6,9 @@ import re
 class ReverseProxy:
 	def __init__(self):
 		self.url_dict = {}
-		self.url_dict['/images/']=("localhost", 8889)
-		self.url_dict['/pdf/']=("localhost", 9000)
-		self.default_server = ("localhost", 8888)
+		self.url_dict['/images/']=("localhost", 5001)
+		self.url_dict['/pdf/']=("localhost", 5002)
+		self.default_server = ("localhost", 5000)
 
 	def proses(self,data):
 
